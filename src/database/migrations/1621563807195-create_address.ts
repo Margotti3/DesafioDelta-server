@@ -42,6 +42,22 @@ export class createAddress1621563807195 implements MigrationInterface {
                     name: 'number',
                     type: 'integer'
                 },
+                {
+                    name: 'complement',
+                    type: 'varchar',
+                    default: null,
+                    isNullable: true,
+                }
+            ],
+            foreignKeys: [
+                {
+                    name: 'Student',
+                    columnNames: ['student_id'],
+                    referencedTableName: 'students',
+                    referencedColumnNames: ['id'],
+                    onUpdate: 'CASCADE',
+                    onDelete: 'CASCADE',
+                }
             ]
         }));
     }

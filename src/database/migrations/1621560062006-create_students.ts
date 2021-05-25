@@ -20,7 +20,7 @@ export class createStudents1621560062006 implements MigrationInterface {
                 },
                 {
                     name: 'profileImg',
-                    type: 'file'
+                    type: 'varchar'
                 }
             ]
         }));

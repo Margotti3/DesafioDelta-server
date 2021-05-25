@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import Student from './Student';
 
 @Entity('address')
 export default class Address {
@@ -25,4 +26,11 @@ export default class Address {
 
   @Column()
   number: number;
+
+  @Column()
+  complement: string;
+
+  @OneToOne(() => Student, studentTable => studentTable.address)
+  @JoinColumn({ name: 'student_id' })
+  student: Student;
 }
