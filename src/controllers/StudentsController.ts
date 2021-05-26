@@ -29,11 +29,32 @@ export default class StudentsController {
   }
 
   async store(req: Request, res: Response) {
-    req.body.profileImg = req.file ? req.file.filename : 'a.png';
+    const profileImg = req.file.filename;
+
+    const {
+      name,
+      zipcode,
+      state,
+      city,
+      neighborhood,
+      street,
+      number,
+      complement
+    } = req.body;
+
+    const address = {
+      zipcode,
+      state,
+      city,
+      neighborhood,
+      street,
+      number,
+      complement
+    };
 
     const createStudent = new CreateStudent();
 
-    await createStudent.execute(req.body);
+    await createStudent.execute({ name, profileImg, address });
 
     return res.sendStatus(201);
   }
@@ -41,13 +62,36 @@ export default class StudentsController {
   async update(req: Request, res: Response) {
     const { id } = req.params;
 
-    req.body.profile = req.file ? req.file.filename : '';
+    const profileImg = req.file ? req.file.filename : '';
+
+    const {
+      name,
+      zipcode,
+      state,
+      city,
+      neighborhood,
+      street,
+      number,
+      complement
+    } = req.body;
+
+    const address = {
+      zipcode,
+      state,
+      city,
+      neighborhood,
+      street,
+      number,
+      complement
+    };
 
     const updateStudent = new UpdateStudent();
 
     await updateStudent.execute({
       id: Number(id),
-      data: req.body
+      name,
+      profileImg,
+      address
     });
 
     return res.sendStatus(201);

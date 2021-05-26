@@ -5,23 +5,13 @@ import Student from "../models/Student";
 
 interface params{
   id: number,
-  data: {
-    name: string;
-    profileImg: string;
-    zipcode: number;
-    street: string;
-    state: string;
-    city: string;
-    neighborhood: string;
-    complement: string;
-    number: number;
-    profile: string;
-  },
+  name: string,
+  profileImg: string;
+  address: object;
 }
 
 export default class UpdateStudent {
-  async execute({id, data }: params) {
-
+  async execute({id, name, profileImg, address }: params) {
     const studentsRepository = getRepository(Student);
     const addressRepository = getRepository(Address);
       
@@ -32,30 +22,10 @@ export default class UpdateStudent {
       throw new AppError('Data not found');
     }
 
-    const {
-      name,
-      zipcode,
-      street,
-      number,
-      state,
-      city,
-      neighborhood,
-      complement,
-      profile
-    } = data;
-
-    const address = {
-      zipcode,
-      street,
-      number,
-      state,
-      city,
-      neighborhood,
-      complement,
-    };
-
-    const profileImg = profile ? profile : studentExist.profileImg;
-
+    if (!profileImg) {
+      profileImg = studentExist.profileImg;
+    }
+    
     await studentsRepository.update({id}, {name, profileImg});
     await addressRepository.update({id: addressExist.id}, address);
   }
